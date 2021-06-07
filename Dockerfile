@@ -43,7 +43,7 @@ ENV GOROOT=/home/go \
 ENV PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
 RUN go get -u -v github.com/mdempsky/gocode && \
-    go get -u -v github.com/uudashr/gopkgs/cmd/gopkgs && \
+    go get -u -v github.com/uudashr/gopkgs/v2/cmd/gopkgs && \
     go get -u -v github.com/ramya-rao-a/go-outline && \
     go get -u -v github.com/acroca/go-symbols && \
     go get -u -v golang.org/x/tools/cmd/guru && \
