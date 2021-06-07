@@ -1,6 +1,6 @@
 FROM centos:centos7.2.1511 as theia
 
-RUN yum -y update && yum -y install openssh-server openssh-clients make gcc gcc-c++ git
+RUN yum -y update && yum -y install make gcc gcc-c++
 
 RUN curl -OL https://nodejs.org/dist/latest-v12.x/node-v12.22.1-linux-x64.tar.xz && \
     tar -Jxf node-v12.22.1-linux-x64.tar.xz && \
@@ -27,7 +27,9 @@ FROM centos:centos7.2.1511
 COPY --from=theia /home/theia /home/theia
 COPY --from=theia /node-v12.22.1-linux-x64 /node
 
-RUN curl -fsSL https://storage.googleapis.com/golang/go1.16.linux-amd64.tar.gz | tar -C /home -xzv
+RUN yum -y update && \
+    yum -y install openssh-server openssh-clients make gcc git && \
+    curl -fsSL https://storage.googleapis.com/golang/go1.16.linux-amd64.tar.gz | tar -C /home -xzv
 
 ENV GOROOT=/home/go \
     GOPATH=/home/go-tools \
