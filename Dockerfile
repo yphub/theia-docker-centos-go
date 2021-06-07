@@ -34,6 +34,9 @@ ENV GOROOT=/home/go \
     SHELL=/bin/bash \
     THEIA_DEFAULT_PLUGINS=local-dir:/home/theia/plugins  \
     PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+    
+RUN echo $PATH
+RUN ls /home/go/bin
 
 RUN go get -u -v github.com/mdempsky/gocode && \
     go get -u -v github.com/uudashr/gopkgs/cmd/gopkgs && \
