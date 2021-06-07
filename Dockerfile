@@ -29,6 +29,10 @@ COPY --from=theia /node-v12.22.1-linux-x64 /node
 
 RUN yum -y update && \
     yum -y install openssh-server openssh-clients make gcc git && \
+    ssh-keygen -t rsa -b 2048 -f /etc/ssh/ssh_root_rsa_key -P "" && \
+    ssh-keygen -t ecdsa -b 256 -f /etc/ssh/ssh_host_ecdsa_key -P "" && \
+    ssh-keygen -t ed25519 -b 256 -f /etc/ssh/ssh_host_ed25519_key -P "" && \
+    echo "root:mrshell" | chpasswd && \    
     curl -fsSL https://storage.googleapis.com/golang/go1.16.linux-amd64.tar.gz | tar -C /home -xzv
 
 ENV GOROOT=/home/go \
@@ -65,5 +69,7 @@ RUN go get -u -v github.com/mdempsky/gocode && \
     go get -u -v -d github.com/stamblerre/gocode && \
     go build -o $GOPATH/bin/gocode-gomod github.com/stamblerre/gocode
 
-EXPOSE 3000 22
-CMD [ "node", "/home/theia/src-gen/backend/main.js", "/data", "--hostname=0.0.0.0" ]
+RUN echo -e "/usr/sbin/sshd\nnode /home/theia/src-gen/backend/main.js /data --hostname=0.0.0.0" > /docker-entrypoint.sh
+
+EXPOSE 22
+CMD [ "/docker-entrypoint.sh" ]
