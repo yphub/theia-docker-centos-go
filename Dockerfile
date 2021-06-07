@@ -32,11 +32,8 @@ RUN curl -fsSL https://storage.googleapis.com/golang/go1.16.linux-amd64.tar.gz |
 ENV GOROOT=/home/go \
     GOPATH=/home/go-tools \
     SHELL=/bin/bash \
-    THEIA_DEFAULT_PLUGINS=local-dir:/home/theia/plugins  \
-    PATH=$GOPATH/bin:$GOROOT/bin:$PATH
-    
-RUN echo $PATH
-RUN ls /home/go/bin
+    THEIA_DEFAULT_PLUGINS=local-dir:/home/theia/plugins
+ENV PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
 RUN go get -u -v github.com/mdempsky/gocode && \
     go get -u -v github.com/uudashr/gopkgs/cmd/gopkgs && \
