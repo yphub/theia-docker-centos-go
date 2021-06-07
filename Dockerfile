@@ -1,6 +1,6 @@
 FROM centos:centos7.2.1511 as theia
 
-RUN yum -y update && yum -y install openssh-server openssh-clients make gcc gcc-c++
+RUN yum -y update && yum -y install openssh-server openssh-clients make gcc gcc-c++ git
 
 RUN curl -OL https://nodejs.org/dist/latest-v12.x/node-v12.22.1-linux-x64.tar.xz && \
     tar -Jxf node-v12.22.1-linux-x64.tar.xz && \
