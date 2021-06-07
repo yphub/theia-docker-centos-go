@@ -28,7 +28,8 @@ COPY --from=theia /home/theia /home/theia
 COPY --from=theia /node-v12.22.1-linux-x64 /node
 
 RUN yum -y update && \
-    yum -y install openssh-server openssh-clients make gcc git && \
+    yum -y install https://repo.ius.io/ius-release-el7.rpm && \
+    yum -y install openssh-server openssh-clients make gcc git224 && \
     ssh-keygen -t rsa -b 2048 -f /etc/ssh/ssh_root_rsa_key -P "" && \
     ssh-keygen -t ecdsa -b 256 -f /etc/ssh/ssh_host_ecdsa_key -P "" && \
     ssh-keygen -t ed25519 -b 256 -f /etc/ssh/ssh_host_ed25519_key -P "" && \
