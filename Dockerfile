@@ -30,7 +30,7 @@ COPY --from=theia /node-v12.22.1-linux-x64 /node
 RUN curl -fsSL https://storage.googleapis.com/golang/go1.16.linux-amd64.tar.gz | tar -C /home -xzv
 
 ENV GOROOT=/home/go \
-    GOPATH=/home/go-tools
+    GOPATH=/home/go-tools \
     SHELL=/bin/bash \
     THEIA_DEFAULT_PLUGINS=local-dir:/home/theia/plugins  \
     PATH=$GOPATH/bin:$GOROOT/bin:$PATH
