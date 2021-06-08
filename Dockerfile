@@ -58,8 +58,7 @@ RUN go get -u -v github.com/mdempsky/gocode && \
     go get -u -v github.com/sqs/goreturns && \
     go get -u -v winterdrache.de/goformat/goformat && \
     go get -u -v golang.org/x/lint/golint && \
-    go get -u -v github.com/cweill/gotests/... && \
-    go get -u -v github.com/alecthomas/gometalinter && \
+    go get -u -v github.com/cweill/gotests/... && \    
     go get -u -v honnef.co/go/tools/... && \
     GO111MODULE=on go get github.com/golangci/golangci-lint/cmd/golangci-lint && \
     go get -u -v github.com/mgechev/revive && \
