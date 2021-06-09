@@ -71,7 +71,7 @@ RUN go get -u -v github.com/mdempsky/gocode && \
     go get -u -v -d github.com/stamblerre/gocode && \
     go build -o $GOPATH/bin/gocode-gomod github.com/stamblerre/gocode
 
-RUN echo -e "/usr/sbin/sshd\nnode /home/theia/src-gen/backend/main.js /data --hostname=0.0.0.0" > /docker-entrypoint.sh && \
+RUN echo -e "/usr/sbin/sshd\ncd /home/theia\nnode src-gen/backend/main.js /data --hostname=0.0.0.0" > /docker-entrypoint.sh && \
     chmod 777 /docker-entrypoint.sh
 
 EXPOSE 22
