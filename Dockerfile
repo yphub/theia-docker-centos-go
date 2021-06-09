@@ -75,4 +75,4 @@ RUN echo -e "/usr/sbin/sshd\ncd /home/theia\nnode src-gen/backend/main.js /data 
     chmod 777 /docker-entrypoint.sh
 
 EXPOSE 22
-CMD [ "/docker-entrypoint.sh" ]
+CMD [ "/bin/bash docker-entrypoint.sh" ]
