@@ -65,7 +65,7 @@ RUN go get -u -v github.com/mdempsky/gocode && \
     go get -u -v github.com/go-delve/delve/cmd/dlv && \
     go get -u -v github.com/davidrjenni/reftools/cmd/fillstruct
 
-RUN go get -u -v -d github.com/stamblerre/gocode && \
+RUN GO111MODULE=off go get -u -v -d github.com/stamblerre/gocode && \
     go build -o $GOPATH/bin/gocode-gomod github.com/stamblerre/gocode
 
 RUN echo -e "/usr/sbin/sshd\nnode /home/theia/src-gen/backend/main.js /data --hostname=0.0.0.0" > /docker-entrypoint.sh
