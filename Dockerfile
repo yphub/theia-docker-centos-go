@@ -31,7 +31,7 @@ RUN yum -y update && \
     yum -y install https://repo.ius.io/ius-release-el7.rpm && \
     yum -y install openssh-server openssh-clients make gcc git224 kde-l10n-Chinese && \
     yum -y reinstall glibc-common && \
-    localedef -c -f GB18030 -i zh_CN zh_CN.GB18030 && \
+    localedef -c -f UTF-8 -i zh_CN zh_CN.utf8 && \
     ssh-keygen -t rsa -b 2048 -f /etc/ssh/ssh_host_rsa_key -P "" && \
     ssh-keygen -t ecdsa -b 256 -f /etc/ssh/ssh_host_ecdsa_key -P "" && \
     ssh-keygen -t ed25519 -b 256 -f /etc/ssh/ssh_host_ed25519_key -P "" && \
@@ -43,8 +43,8 @@ ENV GOROOT=/home/go \
     SHELL=/bin/bash \
     THEIA_DEFAULT_PLUGINS=local-dir:/home/theia/plugins \
     GO111MODULE=auto \
-    LANG=zh_CN.GB18030 \
-    LC_ALL=zh_CN.GB18030
+    LANG=zh_CN.utf8 \
+    LC_ALL=zh_CN.utf8
 ENV PATH=$GOPATH/bin:$GOROOT/bin:/node/bin:$PATH
 
 RUN go get -u -v github.com/mdempsky/gocode && \
