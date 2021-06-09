@@ -30,7 +30,7 @@ COPY --from=theia /node-v12.22.1-linux-x64 /node
 RUN yum -y update && \
     yum -y install https://repo.ius.io/ius-release-el7.rpm && \
     yum -y install openssh-server openssh-clients make gcc git224 && \
-    ssh-keygen -t rsa -b 2048 -f /etc/ssh/ssh_root_rsa_key -P "" && \
+    ssh-keygen -t rsa -b 2048 -f /etc/ssh/ssh_host_rsa_key -P "" && \
     ssh-keygen -t ecdsa -b 256 -f /etc/ssh/ssh_host_ecdsa_key -P "" && \
     ssh-keygen -t ed25519 -b 256 -f /etc/ssh/ssh_host_ed25519_key -P "" && \
     echo "root:mrshell" | chpasswd && \    
@@ -41,7 +41,7 @@ ENV GOROOT=/home/go \
     SHELL=/bin/bash \
     THEIA_DEFAULT_PLUGINS=local-dir:/home/theia/plugins \
     GO111MODULE=auto
-ENV PATH=$GOPATH/bin:$GOROOT/bin:$PATH
+ENV PATH=$GOPATH/bin:$GOROOT/bin:/node/bin:$PATH
 
 RUN go get -u -v github.com/mdempsky/gocode && \
     go get -u -v github.com/uudashr/gopkgs/cmd/gopkgs && \
@@ -71,7 +71,8 @@ RUN go get -u -v github.com/mdempsky/gocode && \
     go get -u -v -d github.com/stamblerre/gocode && \
     go build -o $GOPATH/bin/gocode-gomod github.com/stamblerre/gocode
 
-RUN echo -e "/usr/sbin/sshd\nnode /home/theia/src-gen/backend/main.js /data --hostname=0.0.0.0" > /docker-entrypoint.sh
+RUN echo -e "/usr/sbin/sshd\nnode /home/theia/src-gen/backend/main.js /data --hostname=0.0.0.0" > /docker-entrypoint.sh && \
+    chmod 777 /docker-entrypoint.sh
 
 EXPOSE 22
 CMD [ "/docker-entrypoint.sh" ]
