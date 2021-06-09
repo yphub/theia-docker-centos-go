@@ -44,7 +44,7 @@ ENV GOROOT=/home/go \
 ENV PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
 RUN go get -u -v github.com/mdempsky/gocode && \
-    go get -u -v github.com/uudashr/gopkgs/v2/cmd/gopkgs && \
+    go get -u -v github.com/uudashr/gopkgs/cmd/gopkgs && \
     go get -u -v github.com/ramya-rao-a/go-outline && \
     go get -u -v github.com/acroca/go-symbols && \
     go get -u -v golang.org/x/tools/cmd/guru && \
@@ -59,12 +59,15 @@ RUN go get -u -v github.com/mdempsky/gocode && \
     go get -u -v github.com/sqs/goreturns && \
     go get -u -v winterdrache.de/goformat/goformat && \
     go get -u -v golang.org/x/lint/golint && \
-    go get -u -v github.com/cweill/gotests/... && \    
+    go get -u -v github.com/cweill/gotests/... && \
+    go get -u -v github.com/alecthomas/gometalinter && \
+    go get -u -v honnef.co/go/tools/... && \
     GO111MODULE=on go get github.com/golangci/golangci-lint/cmd/golangci-lint && \
     go get -u -v github.com/mgechev/revive && \
     go get -u -v github.com/sourcegraph/go-langserver && \
     go get -u -v github.com/go-delve/delve/cmd/dlv && \
-    go get -u -v github.com/davidrjenni/reftools/cmd/fillstruct
+    go get -u -v github.com/davidrjenni/reftools/cmd/fillstruct && \
+    go get -u -v github.com/godoctor/godoctor
 
 RUN go get -u -v -d github.com/stamblerre/gocode && \
     go build -o $GOPATH/bin/gocode-gomod github.com/stamblerre/gocode
