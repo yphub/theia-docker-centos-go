@@ -72,8 +72,11 @@ RUN go get -u -v github.com/mdempsky/gocode && \
     go get -u -v github.com/go-delve/delve/cmd/dlv && \
     go get -u -v github.com/davidrjenni/reftools/cmd/fillstruct && \
     go get -u -v github.com/godoctor/godoctor && \
+    go get -u -v golang.org/x/tools/gopls && \
     go get -u -v -d github.com/stamblerre/gocode && \
     go build -o $GOPATH/bin/gocode-gomod github.com/stamblerre/gocode
+
+ENV GOPROXY=https://goproxy.io
 
 RUN echo -e "/usr/sbin/sshd\ncd /home/theia\nnode src-gen/backend/main.js /data --hostname=0.0.0.0" > /docker-entrypoint.sh && \
     chmod 777 /docker-entrypoint.sh
