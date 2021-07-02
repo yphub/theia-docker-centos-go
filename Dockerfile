@@ -2,7 +2,7 @@ FROM centos:centos7.2.1511 as theia
 
 RUN yum -y update && yum -y install make gcc gcc-c++
 
-RUN curl -OL https://nodejs.org/dist/latest-v12.x/node-v12.22.1-linux-x64.tar.xz && \
+RUN curl -OL https://nodejs.org/dist/v12.22.1/node-v12.22.1-linux-x64.tar.xz && \
     tar -Jxf node-v12.22.1-linux-x64.tar.xz && \
     rm -f node-v12.22.1-linux-x64.tar.xz
 
