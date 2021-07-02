@@ -1,7 +1,7 @@
-FROM centos:centos7.2.1511 as theia
+FROM ubuntu:18.04 as theia
 
-RUN yum -y update && yum -y install make gcc gcc-c++
-
+RUN apt-get -y update && apt-get -y install build-essential
+    
 RUN curl -OL https://nodejs.org/dist/v12.22.1/node-v12.22.1-linux-x64.tar.xz && \
     tar -Jxf node-v12.22.1-linux-x64.tar.xz && \
     rm -f node-v12.22.1-linux-x64.tar.xz
@@ -22,7 +22,7 @@ RUN curl -L https://raw.githubusercontent.com/theia-ide/theia-apps/master/theia-
     yarn autoclean --force && \
     yarn cache clean
 
-FROM centos:centos7.2.1511
+FROM ubuntu:18.04
 
 COPY --from=theia /home/theia /home/theia
 COPY --from=theia /node-v12.22.1-linux-x64 /node
