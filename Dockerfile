@@ -1,6 +1,6 @@
 FROM ubuntu:18.04 as theia
 
-RUN apt-get -y update && apt-get -y install build-essential curl
+RUN apt-get -y update && apt-get -y install build-essential curl python2.7
     
 RUN curl -OL https://nodejs.org/dist/v12.22.1/node-v12.22.1-linux-x64.tar.gz && \
     tar xzf node-v12.22.1-linux-x64.tar.gz && \
