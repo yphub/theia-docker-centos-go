@@ -1,6 +1,6 @@
 FROM ubuntu:18.04 as theia
 
-RUN apt-get -y update && apt-get -y install build-essential
+RUN apt-get -y update && apt-get -y install build-essential curl
     
 RUN curl -OL https://nodejs.org/dist/v12.22.1/node-v12.22.1-linux-x64.tar.xz && \
     tar -Jxf node-v12.22.1-linux-x64.tar.xz && \
