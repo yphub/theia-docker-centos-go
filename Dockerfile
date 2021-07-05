@@ -28,4 +28,4 @@ COPY --from=theia /home/theia /home/theia
 COPY --from=theia /node-v12.22.1-linux-x64 /home/theia/node
 COPY --from=theia /usr/lib/x86_64-linux-gnu/libsecret-1.so.0.0.0 /home/theia/solib/libsecret-1.so.0
 
-RUN echo -e 'LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`pwd`/solib THEIA_DEFAULT_PLUGINS=local-dir:`pwd`/plugins `pwd`/node/bin/node src-gen/backend/main.js / --hostname=0.0.0.0' > /home/theia/start.sh
+RUN echo 'LD_LIBRARY_PATH=$LD_LIBRARY_PATH:`pwd`/solib THEIA_DEFAULT_PLUGINS=local-dir:`pwd`/plugins `pwd`/node/bin/node src-gen/backend/main.js / --hostname=0.0.0.0' > /home/theia/start.sh
