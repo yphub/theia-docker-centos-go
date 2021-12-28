@@ -1,17 +1,21 @@
 FROM centos:centos7.2.1511 as theia
 
-RUN yum -y update && yum -y install make gcc gcc-c++
+RUN yum -y update; exit 0
+RUN yum -y install make libsecret-devel centos-release-scl
+RUN yum -y install devtoolset-9-gcc devtoolset-9-gcc-c++ devtoolset-9-binutils && source /opt/rh/devtoolset-9/enable
 
-RUN curl -OL https://nodejs.org/dist/latest-v12.x/node-v12.22.1-linux-x64.tar.xz && \
-    tar -Jxf node-v12.22.1-linux-x64.tar.xz && \
-    rm -f node-v12.22.1-linux-x64.tar.xz
+ENV NODE_VERSION=12.22.8
 
-ENV PATH=$PATH:/node-v12.22.1-linux-x64/bin
+RUN curl -OL https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz && \
+    tar -Jxf node-v$NODE_VERSION-linux-x64.tar.xz && \
+    mv node-v$NODE_VERSION-linux-x64 /node
+
+ENV PATH=$PATH:/node/bin
 
 RUN npm install -g yarn 
 WORKDIR /home/theia
-RUN curl -L https://raw.githubusercontent.com/theia-ide/theia-apps/master/theia-go-docker/latest.package.json -o package.json && \
-    yarn --pure-lockfile && \
+RUN source /opt/rh/devtoolset-9/enable && curl -L https://raw.githubusercontent.com/theia-ide/theia-apps/master/theia-go-docker/latest.package.json -o package.json && \
+    yarn --pure-lockfile && \    
     NODE_OPTIONS="--max_old_space_size=4096" yarn theia build && \
     yarn theia download:plugins && \
     yarn --production && \
@@ -25,18 +29,18 @@ RUN curl -L https://raw.githubusercontent.com/theia-ide/theia-apps/master/theia-
 FROM centos:centos7.2.1511
 
 COPY --from=theia /home/theia /home/theia
-COPY --from=theia /node-v12.22.1-linux-x64 /node
+COPY --from=theia /node /node
 
-RUN yum -y update && \
-    yum -y install https://repo.ius.io/ius-release-el7.rpm && \
+RUN yum -y update; exit 0 
+RUN yum -y install https://repo.ius.io/ius-release-el7.rpm && \
     yum -y install openssh-server openssh-clients make gcc git224 kde-l10n-Chinese && \
     yum -y reinstall glibc-common && \
     localedef -c -f UTF-8 -i zh_CN zh_CN.utf8 && \
     ssh-keygen -t rsa -b 2048 -f /etc/ssh/ssh_host_rsa_key -P "" && \
     ssh-keygen -t ecdsa -b 256 -f /etc/ssh/ssh_host_ecdsa_key -P "" && \
     ssh-keygen -t ed25519 -b 256 -f /etc/ssh/ssh_host_ed25519_key -P "" && \
-    echo "root:mrshell" | chpasswd && \    
-    curl -fsSL https://storage.googleapis.com/golang/go1.16.linux-amd64.tar.gz | tar -C /home -xzv
+    echo "root:mrshell" | chpasswd && \
+    curl -fsSL https://storage.googleapis.com/golang/go1.17.4.linux-amd64.tar.gz | tar -C /home -xzv
 
 ENV GOROOT=/home/go \
     GOPATH=/home/go-tools \
@@ -81,5 +85,5 @@ ENV GOPROXY=https://goproxy.io
 RUN echo -e "/usr/sbin/sshd\ncd /home/theia\nnode src-gen/backend/main.js /data --hostname=0.0.0.0" > /docker-entrypoint.sh && \
     chmod 777 /docker-entrypoint.sh
 
-EXPOSE 22
+EXPOSE 22 3000
 CMD [ "/bin/bash", "docker-entrypoint.sh" ]
